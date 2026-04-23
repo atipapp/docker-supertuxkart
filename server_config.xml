@@ -20,16 +20,16 @@
     <soccer-goal-target value="false" />
 
     <!-- Enable wan server, which requires you to have an stk-addons account with a saved session. Check init-user command for details. -->
-    <wan-server value="true" />
+    <wan-server value="false" />
 
     <!-- Enable network console, which can do for example kickban. -->
     <enable-console value="false" />
 
     <!-- Maximum number of players on the server, setting this to a value greater than 8 can cause performance degradation. -->
-    <server-max-players value="8" />
+    <server-max-players value="20" />
 
     <!-- Password for private server, leave empty for a public server. -->
-    <private-server-password value="" />
+    <private-server-password value="adesso" />
 
     <!-- Message of today shown in lobby, you can enter encoded XML words here or a file.txt and let STK load it. -->
     <motd value="" />
@@ -50,10 +50,10 @@
     <validation-timeout value="20" />
 
     <!-- By default WAN server will always validate player and LAN will not, disable it to allow non-validated player in WAN. -->
-    <validating-player value="true" />
+    <validating-player value="false" />
 
     <!-- Disable it to turn off all stun related code in server, it allows for saving of server resources if your server is not behind a firewall. -->
-    <firewalled-server value="true" />
+    <firewalled-server value="false" />
 
     <!-- Enable to allow IPv6 connection if you have a public IPv6 address. STK currently uses dual-stack mode which requires server to have both IPv4 and IPv6 and listen to same port. If STK detects your server has no public IPv6 address or port differs between IPv4 and IPv6 then it will use IPv4 only socket. For system which doesn't support dual-stack socket (like OpenBSD) you may fail to be connected by IPv4 clients. -->
     <ipv6-connection value="true" />

@@ -1,14 +1,17 @@
-version: "3.0"
 services:
   supertuxkart-server:
-    image: jwestp/supertuxkart:latest
+    build: .
+    image: supertuxkart:1.5-lan
+    container_name: supertuxkart-server
     restart: unless-stopped
-    volumes:
-      - "./server_config.xml:/stk/server_config.xml"
-    environment:
-      USERNAME: myusername
-      PASSWORD: mypassword
-      AI_KARTS: 2
     ports:
-      - "2757:2757"
-      - "2759:2759"
+      - "2757:2757/udp"   # LAN discovery
+      - "2759:2759/udp"   # game traffic
+    volumes:
+      - "./server_config.xml:/stk/server_config.xml:ro"
+    # LAN-only: no USERNAME / PASSWORD (those are only needed to register the
+    # server on stk-addons for public/WAN play).
+    #
+    # Uncomment to add bots that fill empty slots:
+    # environment:
+    #   AI_KARTS: 2
