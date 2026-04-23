@@ -38,6 +38,23 @@ RUN mkdir stk-code/cmake_build && \
     make -j"$(nproc)" && \
     make install
 
+# SERVER_ONLY install still drops the full client asset tree into
+# /usr/local/share/supertuxkart. The server only reads XML metadata and
+# AngelScript track logic — everything graphical/audible is dead weight.
+RUN cd /usr/local/share/supertuxkart/data && \
+    find . -type f \( \
+        -name '*.spm'  -o -name '*.b3d'  -o -name '*.obj' -o -name '*.mtl' -o \
+        -name '*.png'  -o -name '*.jpg'  -o -name '*.jpeg' -o -name '*.dds' -o \
+        -name '*.ogg'  -o -name '*.wav'  -o -name '*.music' -o \
+        -name '*.frag' -o -name '*.vert' -o -name '*.glsl' -o \
+        -name '*.comp' -o -name '*.vsh'  -o -name '*.fsh' -o \
+        -name '*.challenge' -o -name '*.replay' \
+    \) -delete && \
+    find . -type d -empty -delete && \
+    rm -rf /usr/local/share/icons \
+           /usr/local/share/applications \
+           /usr/local/share/metainfo
+
 # -----------
 # Final stage
 # -----------
