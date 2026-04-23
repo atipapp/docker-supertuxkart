@@ -39,18 +39,20 @@ RUN mkdir stk-code/cmake_build && \
     make install
 
 # SERVER_ONLY install still drops the full client asset tree into
-# /usr/local/share/supertuxkart. The server only reads XML metadata and
-# AngelScript track logic — everything graphical/audible is dead weight.
+# /usr/local/share/supertuxkart. Strip what the server provably doesn't
+# read: textures, audio, shaders, single-player-only XML, desktop icons.
+# Meshes (.spm/.b3d) are kept — STK loads a referee model at startup and
+# kart/track meshes during race simulation even with no renderer.
+# Empty directories must remain; FileManager validates their existence.
 RUN cd /usr/local/share/supertuxkart/data && \
     find . -type f \( \
-        -name '*.spm'  -o -name '*.b3d'  -o -name '*.obj' -o -name '*.mtl' -o \
-        -name '*.png'  -o -name '*.jpg'  -o -name '*.jpeg' -o -name '*.dds' -o \
+        -name '*.png'  -o -name '*.jpg'  -o -name '*.jpeg' -o \
+        -name '*.dds'  -o -name '*.tga'  -o -name '*.gif' -o \
         -name '*.ogg'  -o -name '*.wav'  -o -name '*.music' -o \
         -name '*.frag' -o -name '*.vert' -o -name '*.glsl' -o \
         -name '*.comp' -o -name '*.vsh'  -o -name '*.fsh' -o \
         -name '*.challenge' -o -name '*.replay' \
     \) -delete && \
-    find . -type d -empty -delete && \
     rm -rf /usr/local/share/icons \
            /usr/local/share/applications \
            /usr/local/share/metainfo
