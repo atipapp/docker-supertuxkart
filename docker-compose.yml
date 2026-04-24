@@ -1,7 +1,7 @@
 services:
   supertuxkart-server:
     build: .
-    image: supertuxkart:1.5-lan
+    image: supertuxkart:1.5
     container_name: supertuxkart-server
     restart: unless-stopped
     ports:
