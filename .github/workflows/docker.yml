@@ -9,9 +9,9 @@ on:
       - "LICENSE"
       - "supertuxkart-logo.png"
   schedule:
-    # Weekly refresh so the image picks up Ubuntu 24.04 security patches
-    # and any updates to the stk-assets SVN trunk. Sunday 04:00 UTC.
-    - cron: "0 4 * * 0"
+    # Monthly refresh so the image picks up Ubuntu 24.04 security patches
+    # and any updates to the stk-assets SVN trunk. 1st of month, 04:00 UTC.
+    - cron: "0 4 1 * *"
   workflow_dispatch:
 
 concurrency:
@@ -42,7 +42,6 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=1.5,enable={{is_default_branch}}
-            type=sha,prefix=sha-,format=short
 
       - uses: docker/build-push-action@v6
         with:
