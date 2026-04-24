@@ -10,11 +10,11 @@ SuperTuxKart started as a fork of TuxKart, originally developed by Steve and Oli
 
 > [wikipedia.org/wiki/SuperTuxKart](https://en.wikipedia.org/wiki/SuperTuxKart)
 
-![logo](https://raw.githubusercontent.com/jwestp/docker-supertuxkart/master/supertuxkart-logo.png)
+![logo](https://raw.githubusercontent.com/atipapp/docker-supertuxkart/master/supertuxkart-logo.png)
 
 ## How to use this image
 
-The image exposes ports 2759 (server) and 2757 (server discovery). The server should be configured using your own server config file. The config file template can be found [here](https://github.com/jwestp/docker-supertuxkart/blob/master/server_config.xml). Modify it according to your needs and mount it at `/stk/server_config.xml`:
+The image exposes ports 2759 (server) and 2757 (server discovery). The server should be configured using your own server config file. The config file template can be found [here](https://github.com/atipapp/docker-supertuxkart/blob/master/server_config.xml). Modify it according to your needs and mount it at `/stk/server_config.xml`:
 
 ### Hosting a server in your local network
 
@@ -24,7 +24,7 @@ docker run --name my-stk-server \
            -p 2757:2757 \
            -p 2759:2759 \
            -v $(pwd)/server_config.xml:/stk/server_config.xml \
-           jwestp/supertuxkart:latest
+           pppttl/supertuxkart-server:latest
 ```
 
 ### Hosting a server on the internet
@@ -39,7 +39,7 @@ docker run --name my-stk-server \
            -v $(pwd)/server_config.xml:/stk/server_config.xml \
            -e USERNAME=myusername \
            -e PASSWORD=mypassword \
-           jwestp/supertuxkart:latest
+           pppttl/supertuxkart-server:latest
 ```
 
 ### Adding ai karts
@@ -55,7 +55,7 @@ docker run --name my-stk-server \
            -e USERNAME=myusername \
            -e PASSWORD=mypassword \
            -e AI_KARTS=4 \
-           jwestp/supertuxkart:latest
+           pppttl/supertuxkart-server:latest
 ```
 
 ### Accessing the network console

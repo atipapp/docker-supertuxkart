@@ -1,7 +1,6 @@
 services:
   supertuxkart-server:
-    build: .
-    image: supertuxkart:1.5
+    image: pppttl/supertuxkart-server:latest
     container_name: supertuxkart-server
     restart: unless-stopped
     ports:
