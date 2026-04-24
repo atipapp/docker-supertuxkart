@@ -39,16 +39,27 @@ RUN mkdir stk-code/cmake_build && \
     make install
 
 # SERVER_ONLY install still drops the full client asset tree into
-# /usr/local/share/supertuxkart. Strip what the server provably doesn't
-# read: textures, audio, shaders, single-player-only XML, desktop icons.
-# Meshes (.spm/.b3d) are kept — STK loads a referee model at startup and
-# kart/track meshes during race simulation even with no renderer.
+# /usr/local/share/supertuxkart. Two strategies:
+#
+#  1. Textures: truncate to 0 bytes but keep the filenames.
+#     stk_tex_manager.cpp wraps every texture in ServerDummyTexture under
+#     SERVER_ONLY and never reads the content — only the resolved path
+#     matters. Zeroing suppresses "Cannot find texture" / "Failed to load"
+#     noise at startup without the server ever touching the bytes.
+#
+#  2. Audio / shaders / single-player bits: delete outright. Nothing in
+#     the server-only code path references them.
+#
+# Meshes (.spm/.b3d) stay intact — STK loads a referee model at startup
+# and kart/track meshes during race physics, regardless of renderer.
 # Empty directories must remain; FileManager validates their existence.
 RUN cd /usr/local/share/supertuxkart/data && \
     find . -type f \( \
-        -name '*.png'  -o -name '*.jpg'  -o -name '*.jpeg' -o \
-        -name '*.dds'  -o -name '*.tga'  -o -name '*.gif' -o \
-        -name '*.ogg'  -o -name '*.wav'  -o -name '*.music' -o \
+        -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o \
+        -name '*.dds' -o -name '*.tga' -o -name '*.gif' \
+    \) -exec truncate -s 0 {} + && \
+    find . -type f \( \
+        -name '*.ogg'  -o -name '*.wav'  -o \
         -name '*.frag' -o -name '*.vert' -o -name '*.glsl' -o \
         -name '*.comp' -o -name '*.vsh'  -o -name '*.fsh' -o \
         -name '*.challenge' -o -name '*.replay' \
